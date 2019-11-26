@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <div class="row">
+      <br><br>
+      Xin Chào, <strong><%=infoUser.username%></strong>
+  </div>
+  <div class="row">
+      <div class="col-md-4">
+          <h4>Bạn Bè</h4>
+  
+          <%if(infoUser.friends && infoUser.friends.length>0){%>
+            <ul class="list-group">
+              <%infoUser.friends.forEach(user => {%>
+                <li class="list-group-item">
+                      <%= user.username%>
+                </li>
+              <%})%>
+            </ul>
+          <%}%>
+    </div>
+
+    <div class="col-md-4">
+        <h4>Bạn có thể quen</h4>
+
+        <%var listGuestsRequest = infoUser.guestsRequest.join('_');%>
+        <%if(listUsers && listUsers.length>0){%>
+          <ul class="list-group">
+            <%listUsers.forEach(user => {%>
+              <li class="list-group-item">
+                    <%= user.username%>
+                    <%if(listGuestsRequest.includes(user._id)){%>
+                        <a href="/user/remove-request-friend/<%=user._id%>">
+                            <button class="btn btn-warning">Hoàn Tác</button>
+                        </a>
+                    <%}else{%>
+                        <a href="/user/add-friend/<%=user._id%>">
+                            <button class="btn btn-info">Kết Bạn</button>
+                        </a>
+                    <%}%>
+                    
+              </li>
+            <%})%>
+          </ul>
+        <%}%>
+      </div>
+
+
+      <div class="col-md-4">
+            <h4>Danh Sách Yêu Cầu</h4>
+    
+            <%if(infoUser.usersRequest && infoUser.usersRequest.length>0){%>
+              <ul class="list-group">
+                <%infoUser.usersRequest.forEach(user => {%>
+                  <li class="list-group-item">
+                        <%= user.username%>
+
+                        <a href="/user/accept-request-add-friend/<%=user._id%>">
+                            <button class="btn btn-info">Chấp Nhận</button>
+                        </a>
+                        <a href="/user/reject-request-add-friend/<%=user._id%>">
+                            <button class="btn btn-danger">Huỷ</button>
+                        </a>
+                  </li>
+                <%})%>
+              </ul>
+            <%}%>
+          </div>
+    
+      
+  </div>
+</div>
+
+</body>
+</html>
